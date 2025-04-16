@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef } from "react";
+import kaboom from "kaboom";
+import Juego from './scenes/Juego';    // Componente del juego
+import Menu from './components/Menu'; // Componente del menú
+import GameOver from './components/GameOver'; // Componente de Game Over
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    // Inicializar Kaboom de forma correcta
+    const k = kaboom({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      background: [0, 0, 0], // Fondo negro
+      canvas: canvasRef.current, // Referencia al canvas
+    });
+
+    // Configurar las escenas
+    k.scene("inicio", () => {
+      Menu();  // Llamar al componente de la pantalla de inicio
+    });
+
+    k.scene("juego", () => {
+      Juego();  // Llamar al componente del juego
+    });
+
+    k.scene("gameOver", () => {
+      GameOver();  // Llamar al componente de Game Over
+    });
+
+    // Iniciar la escena de inicio
+    k.go("inicio"); // Cambiar a la escena de inicio (sin usar `start`)
+
+    // Limpiar recursos cuando el componente se desmonte
+    return () => k.destroy(); // Destruir Kaboom cuando se desmonte el componente
+  }, []);
+
+  return <canvas ref={canvasRef} />;
 }
 
 export default App;
