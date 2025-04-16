@@ -1,48 +1,31 @@
-import React, { useEffect } from 'react';
-import kaboom from 'kaboom';
+// Menu.js - Define la escena de menú inicial ("inicio")
+export default function initMenu(k) {
+  // Definir la escena "inicio" del menú principal
+  k.scene("inicio", () => {
+    // Añadir un fondo (sprite "fondo" cubriendo la pantalla)
+    k.add([
+      k.sprite("fondo"),        // Sprite de fondo previamente cargado en Kaboom
+      k.pos(0, 0),              // Posición en la esquina superior izquierda
+      k.anchor("topleft"),      // Anclar en la esquina superior izquierda
+    ]);
 
-const Menu = () => {
-  useEffect(() => {
-    const k = kaboom();
+    // Título del juego
+    k.add([
+      k.text("Título del Juego", { size: 24 }),    // Texto grande para el título
+      k.pos(k.width() / 2, k.height() / 2 - 20),   // Centramos en pantalla (un poco hacia arriba)
+      k.anchor("center"),                          // Anclar el texto en el centro (referencia central)
+    ]);
 
-    // Escena de Menú Principal
-    k.scene('menu', () => {
-      k.add([
-        k.text('Bienvenido al Juego', { size: 48 }),
-        k.pos(120, 100),
-        k.color(1, 1, 1),
-      ]);
+    // Instrucciones para iniciar el juego
+    k.add([
+      k.text("Presiona Enter para iniciar", { size: 16 }),  // Texto de instrucciones
+      k.pos(k.width() / 2, k.height() / 2 + 20),            // Centramos debajo del título
+      k.anchor("center"),                                   // Anclar en el centro
+    ]);
 
-      k.add([
-        k.text('Presiona ENTER para Jugar', { size: 24 }),
-        k.pos(120, 200),
-        k.color(1, 1, 1),
-      ]);
-
-      k.add([
-        k.text('Esc para Salir', { size: 24 }),
-        k.pos(120, 300),
-        k.color(1, 1, 1),
-      ]);
-
-      // Acción para iniciar el juego cuando presionas ENTER
-      k.keyPress('enter', () => {
-        k.go('juego'); // Cambia a la escena de juego
-      });
-
-      // Acción para salir del juego cuando presionas ESC
-      k.keyPress('escape', () => {
-        window.close(); // Cierra la ventana del juego
-      });
+    // Al presionar Enter, ir a la escena de juego
+    k.onKeyPress("enter", () => {
+      k.go("juego");  // Cambiar a la escena "juego"
     });
-
-    // Iniciar el menú principal
-    k.start('menu');
-
-    return () => k.destroy(); // Limpiar recursos al desmontar el componente
-  }, []);
-
-  return <canvas />;
-};
-
-export default Menu;
+  });
+}

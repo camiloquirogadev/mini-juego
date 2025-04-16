@@ -1,42 +1,33 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import kaboom from "kaboom";
-import Juego from './scenes/Juego';    // Componente del juego
-import Menu from './components/Menu'; // Componente del menú
+import Menu from './components/Menu';    // Componente del menú
+import Juego from './scenes/Juego';     // Componente del juego
 import GameOver from './components/GameOver'; // Componente de Game Over
 
 function App() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Inicializar Kaboom de forma correcta
     const k = kaboom({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      background: [0, 0, 0], // Fondo negro
-      canvas: canvasRef.current, // Referencia al canvas
+      global: false,
+      canvas: canvasRef.current, // Usamos el canvas de React
     });
 
-    // Configurar las escenas
-    k.scene("inicio", () => {
-      Menu();  // Llamar al componente de la pantalla de inicio
+    k.loadSprite("fondo", "/sprites/fondo.png");
+    k.loadSprite("personaje", "/sprites/santino.png");
+
+    k.waitForAssets(["fondo", "personaje"]).then(() => {
+      Menu(k);
+      Juego(k);
+      GameOver(k);
+
+      k.go("inicio"); // Cambiar a la escena de inicio
     });
 
-    k.scene("juego", () => {
-      Juego();  // Llamar al componente del juego
-    });
-
-    k.scene("gameOver", () => {
-      GameOver();  // Llamar al componente de Game Over
-    });
-
-    // Iniciar la escena de inicio
-    k.go("inicio"); // Cambiar a la escena de inicio (sin usar `start`)
-
-    // Limpiar recursos cuando el componente se desmonte
-    return () => k.destroy(); // Destruir Kaboom cuando se desmonte el componente
+    return () => k.destroy(); // Limpiar recursos cuando el componente se desmonte
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} />; // Solo el canvas con la referencia
 }
 
 export default App;

@@ -1,38 +1,28 @@
-.App {
-  text-align: center;
+/* Eliminar márgenes y padding por defecto */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Hacer que el body ocupe todo el alto de la pantalla */
+body, html {
+  height: 100%; /* Asegura que el body ocupe toda la altura */
+  overflow: hidden; /* Evitar barras de desplazamiento */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Estilo para el canvas donde se dibuja el juego */
+canvas {
+  width: 100%;   /* El canvas ocupa el 100% del ancho */
+  height: 100vh; /* 100vh significa que el alto será el 100% de la ventana */
+  display: block; /* Eliminar el espacio extra alrededor del canvas */
+  background-color: #000; /* Fondo negro por defecto */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Estilo global para centrar el contenido */
+#root {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  align-items: center;
+  height: 100%;
 }
